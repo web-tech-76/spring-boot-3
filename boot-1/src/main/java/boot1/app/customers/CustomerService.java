@@ -23,7 +23,7 @@ class CustomerService {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public CustomerService(JdbcTemplate jt, ApplicationEventPublisher applicationEventPublisher) {
+    CustomerService(JdbcTemplate jt, ApplicationEventPublisher applicationEventPublisher) {
         this.jt = jt;
         this.applicationEventPublisher = applicationEventPublisher;
     }
@@ -33,9 +33,9 @@ class CustomerService {
             new Customer(rs.getInt("id"), rs.getString("name"));
 
 
-    public Customer add(String customerName) {
+    Customer add(String customerName) {
         var keys = new ArrayList<Map<String, Object>>();
-        keys.add(Map.of("id", Long.class));
+        keys.add(Map.of("id", Integer.class));
         var keyGenerator = new GeneratedKeyHolder(keys);
 
         var returnValue = this.jt.update(psc -> {
@@ -48,22 +48,17 @@ class CustomerService {
                     Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, customerName);
             return ps;
-        });
+        }, keyGenerator);
 
-        var genId = keyGenerator.getKeys().get("id");
+        var genId = (Integer) keyGenerator.getKeys().get("id");
 
-        if (genId.getClass() == Object.class) {
-            var number = (Long) genId;
-            var customer = byId(number.intValue());
-            System.out.println("customer = " + customer);
-            this.applicationEventPublisher.publishEvent(new CustomerCreatedEvent(customer));
-            return customer;
-        }
+        var customer = byId(genId);
+        this.applicationEventPublisher.publishEvent(new CustomerCreatedEvent(customer));
+        return customer;
 
-        return null;
     }
 
-    public Customer byId(Integer id) {
+    Customer byId(Integer id) {
         return
                 this.jt.queryForObject("select id , name from customer where id = ? "
                         , customerRowMapper
@@ -71,7 +66,7 @@ class CustomerService {
 
     }
 
-    public Collection<Customer> find() {
+    Collection<Customer> find() {
         var custList = this.jt.query("select id , name from customer ",
                 customerRowMapper);
         var customerEvents = new CustomersLoadEvent(custList);
