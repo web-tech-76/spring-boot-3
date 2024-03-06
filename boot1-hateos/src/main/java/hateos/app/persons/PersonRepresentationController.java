@@ -1,6 +1,7 @@
 package hateos.app.persons;
 
 
+import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
@@ -22,28 +23,28 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Slf4j
 @Controller
 @ResponseBody
-public class PersonRepController {
+public class PersonRepresentationController {
 
     private final PersonService personService;
 
-    public PersonRepController(PersonService personService) {
+    PersonRepresentationController(PersonService personService) {
         this.personService = personService;
     }
 
     @GetMapping("/personRep/{id}")
-    public HttpEntity<PersonModel> getById(@PathVariable("id") Integer id) {
+    HttpEntity<PersonModel> getById(@PathVariable("id") @Nullable Integer id) {
 
         var person = this.personService.all()
                 .stream()
-                .filter(p -> p.id() == id)
+                .filter(p -> p.id().equals(id))
                 .findFirst()
-                .get();
+                .orElse(null);
 
         var personModel =
                 new PersonModel(person);
 
         final var link1 = linkTo(methodOn(PersonController.class).all()).withRel("persons");
-        final var link2 = linkTo(methodOn(PersonRepController.class).getById(id)).withSelfRel();
+        final var link2 = linkTo(methodOn(PersonRepresentationController.class).getById(id)).withSelfRel();
 
         personModel.add(link1, link2);
         return ResponseEntity.ok(personModel);
@@ -54,23 +55,23 @@ public class PersonRepController {
     @Data
     @RequiredArgsConstructor
     @EqualsAndHashCode(callSuper = true)
-    class PersonsModel extends RepresentationModel<PersonsModel> {
+    static class PersonsModel extends RepresentationModel<PersonsModel> {
 
-        private final Collection<Person> person;
+        private final Collection<Person> persons;
 
     }
 
 
     @GetMapping("/allPersons")
-    public HttpEntity<PersonsModel> getAllPersons() {
+    HttpEntity<PersonsModel> getAllPersons() {
 
         var all = this.personService.all();
         var personsModel = new PersonsModel(all);
 
-        final var link1 = linkTo(methodOn(PersonRepController.class)
+        final var link1 = linkTo(methodOn(PersonRepresentationController.class)
                 .getAllPersons()).withSelfRel();
         final var link2 = linkTo(
-                methodOn(PersonRepController.class)
+                methodOn(PersonRepresentationController.class)
                         .getById(null)).withSelfRel();
 
         personsModel.add(link1, link2);

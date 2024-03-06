@@ -29,20 +29,20 @@ public class PersonController implements ApplicationListener<PersonLoadEvent> {
 
     @GetMapping("/persons")
     @ResponseBody
-    public Collection<Person> all() {
+    Collection<Person> all() {
         return this.personList;
     }
 
 
     @GetMapping("/persons.do")
-    public String allTh(@RequestParam Integer id, Model model) {
+    String allTh(@RequestParam Integer id, Model model) {
         model.addAttribute("person", this.personList.stream().filter(person -> person.id() == id).findFirst().get());
         return "person";
     }
 
     @GetMapping("/persons/{id}")
     @ResponseBody
-    public HttpEntity<Person> byId(@PathVariable Integer id) {
+    HttpEntity<Person> byId(@PathVariable Integer id) {
         return ResponseEntity.ok(this
                 .personList
                 .stream()
@@ -53,12 +53,12 @@ public class PersonController implements ApplicationListener<PersonLoadEvent> {
 
 
     @GetMapping("/persons.th")
-    public ModelAndView allTh() {
+    ModelAndView allTh() {
         return new ModelAndView("persons-th", Map.of("persons", this.personList));
     }
 
     @GetMapping("/persons.mu")
-    public ModelAndView allMu() {
+    ModelAndView allMu() {
         return new ModelAndView("persons-mu", Map.of("persons", this.personList));
     }
 
