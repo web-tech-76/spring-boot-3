@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 @PropertySource("classpath:application.properties")
 @ComponentScan
 @EnableTransactionManagement
-public class AppConfig {
+class AppConfig {
 
     /*static class MyPropertySource extends org.springframework.core.env.PropertySource<String> {
 
