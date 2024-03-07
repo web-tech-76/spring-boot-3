@@ -1,4 +1,6 @@
 package ht.process.app.books;
 
-record Book(int id, String name, String author, double price) {
+import org.springframework.data.annotation.Id;
+
+record Book(@Id int id, String name, String author, double price) {
 }

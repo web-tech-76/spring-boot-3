@@ -1,4 +1,4 @@
-package ht.process.app.books;
+package boot2data.app.books;
 
 
 import jakarta.annotation.Nullable;

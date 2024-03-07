@@ -1,4 +1,4 @@
-package ht.process.app.books;
+package boot2data.app.books;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;

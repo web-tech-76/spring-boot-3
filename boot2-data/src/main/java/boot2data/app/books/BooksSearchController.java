@@ -1,4 +1,4 @@
-package ht.process.app.books;
+package boot2data.app.books;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentSkipListSet;
 class BooksSearchController implements ApplicationListener<BooksLoadEvent> {
 
     private Collection<Book> bookCache = new ConcurrentSkipListSet<>();
-
 
     @Override
     public void onApplicationEvent(BooksLoadEvent event) {
