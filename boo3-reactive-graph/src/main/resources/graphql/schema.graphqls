@@ -1,0 +1,39 @@
+##
+#
+#
+
+type Query {
+
+    customers: [Customer],
+    customerById (id: ID): Customer,
+    customerByName(name : String) : [Customer],
+    allCustomersDetails: [CustomerDetails],
+    customersDetailsById (id : ID): CustomerDetails!,
+    customerDetailsByCustomerId(customerId : Int): [CustomerDetails]!
+}
+
+
+type Customer
+{
+    id: ID,
+    name: String,
+    isLoggedIn: Boolean,
+    customerDetail: [CustomerDetails]!
+}
+
+type Mutation{
+
+    createCustomer(name: String, isLoggedIn: Boolean): Customer
+}
+
+
+type CustomerDetails
+{
+    id: ID,
+    customerId: Int,
+    email: String,
+    phone: String,
+    address: String
+}
+
+
