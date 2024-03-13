@@ -13,6 +13,13 @@ type Query {
 }
 
 
+type CustomerData{
+    id: ID,
+    name: String,
+
+}
+
+
 type Customer
 {
     id: ID,
@@ -21,8 +28,11 @@ type Customer
     customerDetail: [CustomerDetails]!
 }
 
-type Mutation{
+type Subscription {
+    createdCustomers : CustomerData!
+}
 
+type Mutation{
     createCustomer(name: String, isLoggedIn: Boolean): Customer
 }
 
