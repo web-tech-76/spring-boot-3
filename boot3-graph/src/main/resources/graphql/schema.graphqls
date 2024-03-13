@@ -2,26 +2,26 @@
 #subscription
 #mutation
 
-type Query  {
-
-    books : [Book]!,
-    bookById (id: ID) : Book!,
-    bookByBookName (name : String) :[Book]!
-}
-
-type Mutation {
-    createBook(bookName:String, author:String, price:Float, isAvailable:Boolean) : Book
-}
-
-type Book {
-    id: Int,
-    bookName: String,
-    author: String,
-    price: Float,
-    isAvailable: Boolean,
-    store: Store
-}
-
-type Store{
-    id: ID
-}
+#type Query  {
+#
+#    books : [Book]!,
+#    bookById (id: ID) : Book!,
+#    bookByBookName (name : String) :[Book]!
+#}
+#
+#type Mutation {
+#    createBook(bookName:String, author:String, price:Float, isAvailable:Boolean) : Book
+#}
+#
+#type Book {
+#    id: Int,
+#    bookName: String,
+#    author: String,
+#    price: Float,
+#    isAvailable: Boolean,
+#    store: Store
+#}
+#
+#type Store{
+#    id: ID
+#}
