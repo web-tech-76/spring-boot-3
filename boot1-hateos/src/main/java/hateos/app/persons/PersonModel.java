@@ -5,8 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.RepresentationModel;
 
-import java.util.Collection;
-
 
 @Data
 @RequiredArgsConstructor

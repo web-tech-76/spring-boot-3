@@ -40,8 +40,7 @@ public class PersonRepresentationController {
                 .findFirst()
                 .orElse(null);
 
-        var personModel =
-                new PersonModel(person);
+        var personModel = new PersonModel(person);
 
         final var link1 = linkTo(methodOn(PersonController.class).all()).withRel("persons");
         final var link2 = linkTo(methodOn(PersonRepresentationController.class).getById(id)).withSelfRel();
